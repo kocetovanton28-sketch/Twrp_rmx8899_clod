@@ -43,12 +43,16 @@ jobs:
           git config --global user.name "ci"
           git config --global user.email "ci@example.com"
           git config --global color.ui false
+          
       - name: Install and configure latest Repo launcher
         run: |
           mkdir -p $HOME/bin
-          curl https://googleapis.com > $HOME/bin/repo
+          # Расшифровываем прямую ссылку на скачивание актуального repo
+          REPO_URL=$(echo "aHR0cHM6Ly9zdG9yYWdlLmdvb2dsZWFwaXMuY29tL2dpdC1yZXBvLWRvd25sb2Fkcy9yZXBv" | base64 --decode)
+          curl -sSL "$REPO_URL" > $HOME/bin/repo
           chmod a+x $HOME/bin/repo
           echo "$HOME/bin" >> $GITHUB_PATH
+          
           
       - name: Build recovery
         env:
