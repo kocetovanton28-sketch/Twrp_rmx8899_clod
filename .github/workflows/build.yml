@@ -43,7 +43,13 @@ jobs:
           git config --global user.name "ci"
           git config --global user.email "ci@example.com"
           git config --global color.ui false
-
+      - name: Install and configure latest Repo launcher
+        run: |
+          mkdir -p $HOME/bin
+          curl https://googleapis.com > $HOME/bin/repo
+          chmod a+x $HOME/bin/repo
+          echo "$HOME/bin" >> $GITHUB_PATH
+          
       - name: Build recovery
         env:
           USE_COMMUNITY_PATCHES: ${{ inputs.community_patches && '1' || '0' }}
